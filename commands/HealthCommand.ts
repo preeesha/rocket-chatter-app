@@ -9,13 +9,13 @@ import {
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { API_BASE_URI } from "../constants";
 
-export class ExplainCommand implements ISlashCommand {
-    public command = "rcc-explain";
+export class HealthCommand implements ISlashCommand {
+    public command = "rcc-health";
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/explain";
+    private commandEndpoint = "health";
 
     private async sendMessage(
         context: SlashCommandContext,
@@ -37,17 +37,20 @@ export class ExplainCommand implements ISlashCommand {
         modify: IModify,
         http: IHttp
     ): Promise<void> {
-        const subcommand = context.getArguments().join(" ");
-        if (!subcommand) {
-            throw new Error("Error!");
-        }
-
-        const res = await http.get(`${API_BASE_URI}${this.commandEndpoint}`);
+        const res = await http.get(`${API_BASE_URI}/${this.commandEndpoint}`);
         if (!res) {
-            await this.sendMessage(context, modify, "No response");
+            await this.sendMessage(
+                context,
+                modify,
+                `Rocket Chatter is not available at the moment. Please try again later.`
+            );
             return;
         }
-        await this.sendMessage(context, modify, `${res.content}`);
+        await this.sendMessage(
+            context,
+            modify,
+            `Rocket Chatter Health is ${res.content}`
+        );
         console.log(res);
     }
 }
