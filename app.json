@@ -1,0 +1,16 @@
+{
+    "id": "eec3e96e-8b7b-4235-aa6c-feee3cb64200",
+    "version": "0.0.1",
+    "requiredApiVersion": "^1.19.0",
+    "iconFile": "icon.png",
+    "author": {
+        "name": "Prisha Gupta",
+        "homepage": "https://google.com",
+        "support": "https://google.com"
+    },
+    "name": "Rocket Chatter",
+    "nameSlug": "rocket-chatter",
+    "classFile": "RocketChatterApp.ts",
+    "description": "Rocket Chatter app",
+    "implements": []
+}
