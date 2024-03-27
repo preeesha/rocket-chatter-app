@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "user": "rc-apps deploy --url http://localhost:3000 -u prisha.gupta -p 12345678"
+    "rc-deploy": "rc-apps deploy --url http://localhost:3000 -u prisha.gupta -p 12345678"
   },
   "devDependencies": {
     "@rocket.chat/apps-engine": "^1.19.0",
