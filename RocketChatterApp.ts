@@ -3,11 +3,11 @@ import {
     IConfigurationExtend,
     ILogger,
 } from "@rocket.chat/apps-engine/definition/accessors";
-
 import { App } from "@rocket.chat/apps-engine/definition/App";
 import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
-import { ExplainCommand } from "./commands/ExplainCommand";
+
 import { HealthCommand } from "./commands/HealthCommand";
+import { SummarizeCommand } from "./commands/SummarizeCommand";
 
 export class RocketChatterApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
@@ -15,7 +15,7 @@ export class RocketChatterApp extends App {
     }
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
-        configuration.slashCommands.provideSlashCommand(new ExplainCommand());
+        configuration.slashCommands.provideSlashCommand(new SummarizeCommand());
         configuration.slashCommands.provideSlashCommand(new HealthCommand());
     }
 }
