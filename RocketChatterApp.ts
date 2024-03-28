@@ -10,6 +10,7 @@ import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { SearchUsageCommand } from "./commands/SearchUsageCommand";
 import { SummarizeCommand } from "./commands/SummarizeCommand";
+import { TranslateCommand } from "./commands/TranslateCommand";
 
 export class RocketChatterApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
@@ -17,11 +18,13 @@ export class RocketChatterApp extends App {
     }
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
-        configuration.slashCommands.provideSlashCommand(new SummarizeCommand());
+        configuration.slashCommands.provideSlashCommand(new HealthCommand());
+
         configuration.slashCommands.provideSlashCommand(
             new SearchUsageCommand()
         );
-        configuration.slashCommands.provideSlashCommand(new HealthCommand());
+        configuration.slashCommands.provideSlashCommand(new SummarizeCommand());
+        configuration.slashCommands.provideSlashCommand(new TranslateCommand());
         configuration.slashCommands.provideSlashCommand(new DocumentCommand());
     }
 }

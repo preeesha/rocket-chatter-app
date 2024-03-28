@@ -9,13 +9,13 @@ import {
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { API_BASE_URI } from "../constants";
 
-export class DocumentCommand implements ISlashCommand {
-    public command = "rcc-document";
+export class TranslateCommand implements ISlashCommand {
+    public command = "rcc-translate";
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/document";
+    private commandEndpoint = "/translate";
 
     public async executor(
         context: SlashCommandContext,
@@ -23,24 +23,30 @@ export class DocumentCommand implements ISlashCommand {
         modify: IModify,
         http: IHttp
     ): Promise<void> {
-        const subcommand = context.getArguments().join(" ");
-        if (!subcommand) {
-            throw new Error("Error!");
+        const [targetEntity, targetLanguage] = context.getArguments();
+        if (!targetEntity || !targetLanguage) {
+            const errorMessage = modify.getCreator().startMessage();
+            errorMessage
+                .setSender(context.getSender())
+                .setRoom(context.getRoom())
+                .setText("Invalid arguments!");
+            await modify.getCreator().finish(errorMessage);
+            return;
         }
 
         const greetMessage = modify.getCreator().startMessage();
         greetMessage
             .setSender(context.getSender())
             .setRoom(context.getRoom())
-            .setText("Searching ...");
+            .setText("Translating ...");
         await modify.getCreator().finish(greetMessage);
 
         const res = await http.post(`${API_BASE_URI}${this.commandEndpoint}`, {
-            data: {
-                query: subcommand,
-            },
+            data: { targetEntity, targetLanguage },
         });
-        if (!res) {
+        console.log(res.data);
+        const data = res?.data?.result;
+        if (!res || !data) {
             const errorMessage = modify.getCreator().startMessage();
             errorMessage
                 .setSender(context.getSender())
@@ -50,16 +56,11 @@ export class DocumentCommand implements ISlashCommand {
             return;
         }
 
-        const data = res.data!;
-
-        const jsDoc = data.jsDoc;
-        const explaination = data.explaination;
-
         const resultMessage = modify.getCreator().startMessage();
         resultMessage
             .setSender(context.getSender())
             .setRoom(context.getRoom())
-            .setText(`\`\`\`\n${jsDoc}\n\`\`\`\n\n${explaination}`);
+            .setText(data);
         await modify.getCreator().finish(resultMessage);
     }
 }
