@@ -6,6 +6,7 @@ import {
 import { App } from "@rocket.chat/apps-engine/definition/App";
 import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
 
+import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { SearchUsageCommand } from "./commands/SearchUsageCommand";
 import { SummarizeCommand } from "./commands/SummarizeCommand";
@@ -21,5 +22,6 @@ export class RocketChatterApp extends App {
             new SearchUsageCommand()
         );
         configuration.slashCommands.provideSlashCommand(new HealthCommand());
+        configuration.slashCommands.provideSlashCommand(new DocumentCommand());
     }
 }
