@@ -7,7 +7,8 @@ import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { API_BASE_URI } from "../constants";
+import { handleCommand } from "../utils/handleCommand";
+import { requestServer } from "../utils/requestServer";
 
 export class DocumentCommand implements ISlashCommand {
     public command = "rcc-document";
@@ -23,43 +24,30 @@ export class DocumentCommand implements ISlashCommand {
         modify: IModify,
         http: IHttp
     ): Promise<void> {
-        const subcommand = context.getArguments().join(" ");
-        if (!subcommand) {
+        const [targetEntity, query] = context.getArguments();
+        if (!targetEntity) {
             throw new Error("Error!");
         }
 
-        const greetMessage = modify.getCreator().startMessage();
-        greetMessage
-            .setSender(context.getSender())
-            .setRoom(context.getRoom())
-            .setText("Searching ...");
-        await modify.getCreator().finish(greetMessage);
+        const sendEditedMessage = await handleCommand(
+            context,
+            modify,
+            this.command
+        );
 
-        const res = await http.post(`${API_BASE_URI}${this.commandEndpoint}`, {
-            data: {
-                query: subcommand,
-            },
+        const res = await requestServer(http, this.commandEndpoint, {
+            query: query || "make it easy for me",
+            targetEntity: targetEntity,
         });
         if (!res) {
-            const errorMessage = modify.getCreator().startMessage();
-            errorMessage
-                .setSender(context.getSender())
-                .setRoom(context.getRoom())
-                .setText("Error!");
-            await modify.getCreator().finish(errorMessage);
+            await sendEditedMessage("Error!");
             return;
         }
 
-        const data = res.data!;
+        const data = res as Record<string, string>;
 
-        const jsDoc = data.jsDoc;
-        const explaination = data.explaination;
-
-        const resultMessage = modify.getCreator().startMessage();
-        resultMessage
-            .setSender(context.getSender())
-            .setRoom(context.getRoom())
-            .setText(`\`\`\`\n${jsDoc}\n\`\`\`\n\n${explaination}`);
-        await modify.getCreator().finish(resultMessage);
+        await sendEditedMessage(
+            `\`\`\`\n${data["jsDoc"]}\n\`\`\`\n\n${data["explanation"]}`
+        );
     }
 }
