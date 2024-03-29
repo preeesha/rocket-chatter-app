@@ -52,11 +52,15 @@ export async function handleCommand(
         await modify.getUpdater().finish(updater);
     }, 500);
 
-    return async (newMessage: string) => {
+    return async (newMessage: string, imageAttachments: string[] = []) => {
         clearInterval(progressIndicatorInterval);
 
         const updater = await modify.getUpdater().message(message, user);
-        updater.setEditor(user).setRoom(context.getRoom()).setText(newMessage);
+        updater
+            .setEditor(user)
+            .setRoom(context.getRoom())
+            .setText(newMessage)
+            .setAttachments(imageAttachments.map((x) => ({ imageUrl: x })));
         await modify.getUpdater().finish(updater);
     };
 }

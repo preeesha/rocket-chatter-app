@@ -10,13 +10,13 @@ import {
 import { handleCommand } from "../utils/handleCommand";
 import { requestServer } from "../utils/requestServer";
 
-export class SummarizeCommand implements ISlashCommand {
+export class AskCommand implements ISlashCommand {
     public command = "rcc-ask";
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/summarize";
+    private commandEndpoint = "/ask";
 
     public async executor(
         context: SlashCommandContext,
