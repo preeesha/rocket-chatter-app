@@ -6,12 +6,13 @@ import {
 import { App } from "@rocket.chat/apps-engine/definition/App";
 import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
 
+import { AskCommand } from "./commands/AskCommand";
+import { DiagramCommand } from "./commands/DiagramCommand";
 import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { ImportanceCommand } from "./commands/ImportanceCommand";
 import { SearchUsageCommand } from "./commands/SearchUsageCommand";
 import { SuggestFixCommand } from "./commands/SuggestFixCommand";
-import { SummarizeCommand } from "./commands/SummarizeCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
 
 export class RocketChatterApp extends App {
@@ -21,11 +22,11 @@ export class RocketChatterApp extends App {
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
         configuration.slashCommands.provideSlashCommand(new HealthCommand());
-
+        configuration.slashCommands.provideSlashCommand(new AskCommand());
+        configuration.slashCommands.provideSlashCommand(new DiagramCommand());
         configuration.slashCommands.provideSlashCommand(
             new SearchUsageCommand()
         );
-        configuration.slashCommands.provideSlashCommand(new SummarizeCommand());
         configuration.slashCommands.provideSlashCommand(new TranslateCommand());
         configuration.slashCommands.provideSlashCommand(new DocumentCommand());
         configuration.slashCommands.provideSlashCommand(
