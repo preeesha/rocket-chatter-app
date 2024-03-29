@@ -10,6 +10,7 @@ import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { ImportanceCommand } from "./commands/ImportanceCommand";
 import { SearchUsageCommand } from "./commands/SearchUsageCommand";
+import { SuggestFixCommand } from "./commands/SuggestFixCommand";
 import { SummarizeCommand } from "./commands/SummarizeCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
 
@@ -29,6 +30,9 @@ export class RocketChatterApp extends App {
         configuration.slashCommands.provideSlashCommand(new DocumentCommand());
         configuration.slashCommands.provideSlashCommand(
             new ImportanceCommand()
+        );
+        configuration.slashCommands.provideSlashCommand(
+            new SuggestFixCommand()
         );
     }
 }
