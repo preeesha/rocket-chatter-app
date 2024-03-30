@@ -70,7 +70,5 @@ export async function suggestModalSubmitHandler(
         return;
     }
 
-    const data = res as Record<string, string>;
-
-    await sendMessage(data.result);
+    await sendMessage(res as string);
 }
