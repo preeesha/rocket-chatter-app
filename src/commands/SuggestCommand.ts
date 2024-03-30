@@ -1,13 +1,15 @@
 import {
     IHttp,
     IModify,
+    IPersistence,
     IRead,
 } from "@rocket.chat/apps-engine/definition/accessors";
 import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { API_BASE_URI } from "../constants";
+import { suggestModal } from "../modals/suggestModal";
+import { persistUIData } from "../utils/persistenceHandlers";
 
 export class SuggestCommand implements ISlashCommand {
     public command = "rcc-suggest";
@@ -15,51 +17,27 @@ export class SuggestCommand implements ISlashCommand {
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/suggest";
-
     public async executor(
         context: SlashCommandContext,
         read: IRead,
         modify: IModify,
-        http: IHttp
+        http: IHttp,
+        persistence: IPersistence
     ): Promise<void> {
-        const [targetEntity, query] = context.getArguments();
-        if (!targetEntity || !query) {
-            const errorMessage = modify.getCreator().startMessage();
-            errorMessage
-                .setSender(context.getSender())
-                .setRoom(context.getRoom())
-                .setText("Invalid arguments!");
-            await modify.getCreator().finish(errorMessage);
-            return;
+        const userID = context.getSender().id;
+        await persistUIData(persistence, userID, context);
+
+        const triggerId = context.getTriggerId();
+        if (!triggerId) {
+            throw new Error("No trigger ID provided");
         }
 
-        const greetMessage = modify.getCreator().startMessage();
-        greetMessage
-            .setSender(context.getSender())
-            .setRoom(context.getRoom())
-            .setText("Inspecting ...");
-        await modify.getCreator().finish(greetMessage);
-
-        const res = await http.post(`${API_BASE_URI}${this.commandEndpoint}`, {
-            data: { targetEntity, query },
-        });
-        const data = res?.data?.result;
-        if (!res || !data) {
-            const errorMessage = modify.getCreator().startMessage();
-            errorMessage
-                .setSender(context.getSender())
-                .setRoom(context.getRoom())
-                .setText("Error!");
-            await modify.getCreator().finish(errorMessage);
-            return;
-        }
-
-        const resultMessage = modify.getCreator().startMessage();
-        resultMessage
-            .setSender(context.getSender())
-            .setRoom(context.getRoom())
-            .setText(data);
-        await modify.getCreator().finish(resultMessage);
+        await modify
+            .getUiController()
+            .openSurfaceView(
+                await suggestModal(),
+                { triggerId },
+                context.getSender()
+            );
     }
 }
