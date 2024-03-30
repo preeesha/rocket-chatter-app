@@ -7,7 +7,7 @@ import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { handleCommand } from "../utils/handleCommand";
+import { handleCommandResponse } from "../utils/handleCommandResponse";
 import { requestServer } from "../utils/requestServer";
 
 export class TranslateCommand implements ISlashCommand {
@@ -15,8 +15,6 @@ export class TranslateCommand implements ISlashCommand {
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
-
-    private commandEndpoint = "/translate";
 
     public async executor(
         context: SlashCommandContext,
@@ -35,13 +33,15 @@ export class TranslateCommand implements ISlashCommand {
             return;
         }
 
-        const sendEditedMessage = await handleCommand(
-            context,
+        const sendEditedMessage = await handleCommandResponse(
+            `${targetEntity} ${targetLanguage}`,
+            context.getSender(),
+            context.getRoom(),
             modify,
             this.command
         );
 
-        const res = await requestServer(http, this.commandEndpoint, {
+        const res = await requestServer(http, "/translate", {
             targetEntity,
             targetLanguage,
         });

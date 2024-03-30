@@ -7,7 +7,7 @@ import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { handleCommand } from "../utils/handleCommand";
+import { handleCommandResponse } from "../utils/handleCommandResponse";
 import { requestServer } from "../utils/requestServer";
 
 export class WhyUsedCommand implements ISlashCommand {
@@ -15,8 +15,6 @@ export class WhyUsedCommand implements ISlashCommand {
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
-
-    private commandEndpoint = "/whyUsed";
 
     public async executor(
         context: SlashCommandContext,
@@ -29,13 +27,15 @@ export class WhyUsedCommand implements ISlashCommand {
             throw new Error("Error!");
         }
 
-        const sendEditedMessage = await handleCommand(
-            context,
+        const sendEditedMessage = await handleCommandResponse(
+            query,
+            context.getSender(),
+            context.getRoom(),
             modify,
             this.command
         );
 
-        const res = await requestServer(http, this.commandEndpoint, { query });
+        const res = await requestServer(http, "/whyUsed", { query });
         if (!res) {
             await sendEditedMessage("❌ No references found!");
             return;

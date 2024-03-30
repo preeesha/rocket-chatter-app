@@ -1,13 +1,14 @@
 import { IModify } from "@rocket.chat/apps-engine/definition/accessors";
-import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
+import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { IUser } from "@rocket.chat/apps-engine/definition/users";
 
-export async function handleCommand(
-    context: SlashCommandContext,
+export async function handleCommandResponse(
+    args: string,
+    sender: IUser,
+    room: IRoom,
     modify: IModify,
     command: string
 ) {
-    const args = context.getArguments();
     const user = modify
         .getCreator()
         .startBotUser({
@@ -21,10 +22,10 @@ export async function handleCommand(
 
     const greetMessage = modify.getCreator().startMessage();
     greetMessage
-        .setSender(context.getSender())
-        .setRoom(context.getRoom())
+        .setSender(sender)
+        .setRoom(room)
         .setGroupable(false)
-        .setText(`\`/${command}\` ${args.join(" ")}`);
+        .setText(`\`/${command}\` ${args}`);
     await modify.getCreator().finish(greetMessage);
 
     const progressIndicators = [
@@ -35,10 +36,7 @@ export async function handleCommand(
     ];
 
     const builder = modify.getCreator().startMessage();
-    builder
-        .setSender(user)
-        .setRoom(context.getRoom())
-        .setText(":pick: Working");
+    builder.setSender(user).setRoom(room).setText(":pick: Working");
     const message = await modify.getCreator().finish(builder);
 
     let progressCount = 0;
@@ -48,7 +46,7 @@ export async function handleCommand(
         const updater = await modify.getUpdater().message(message, user);
         updater
             .setEditor(user)
-            .setRoom(context.getRoom())
+            .setRoom(room)
             .setText(`${progressIndicators[progressCount++]} Working`);
         await modify.getUpdater().finish(updater);
     }, 500);
@@ -59,7 +57,7 @@ export async function handleCommand(
         const updater = await modify.getUpdater().message(message, user);
         updater
             .setEditor(user)
-            .setRoom(context.getRoom())
+            .setRoom(room)
             .setText(newMessage)
             .setAttachments(imageAttachments.map((x) => ({ imageUrl: x })));
         await modify.getUpdater().finish(updater);

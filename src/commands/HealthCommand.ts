@@ -8,7 +8,7 @@ import {
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { API_BASE_URI } from "../constants";
-import { handleCommand } from "../utils/handleCommand";
+import { handleCommandResponse } from "../utils/handleCommandResponse";
 
 export class HealthCommand implements ISlashCommand {
     public command = "rcc-health";
@@ -16,21 +16,21 @@ export class HealthCommand implements ISlashCommand {
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "health";
-
     public async executor(
         context: SlashCommandContext,
         read: IRead,
         modify: IModify,
         http: IHttp
     ): Promise<void> {
-        const sendEditedMessage = await handleCommand(
-            context,
+        const sendEditedMessage = await handleCommandResponse(
+            "",
+            context.getSender(),
+            context.getRoom(),
             modify,
             this.command
         );
 
-        const res = await http.get(`${API_BASE_URI}/${this.commandEndpoint}`);
+        const res = await http.get(`${API_BASE_URI}/health`);
         if (!res) {
             await sendEditedMessage("❌ Health check failed");
             return;
