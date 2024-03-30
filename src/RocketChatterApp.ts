@@ -18,8 +18,10 @@ import {
 import { AskCommand } from "./commands/AskCommand";
 import { DiagramCommand } from "./commands/DiagramCommand";
 import { DocumentCommand } from "./commands/DocumentCommand";
+import { FindSimilarCommand } from "./commands/FindSimilar";
 import { HealthCommand } from "./commands/HealthCommand";
 import { ImportanceCommand } from "./commands/ImportanceCommand";
+import { StyleguideCommand } from "./commands/Styleguide";
 import { SuggestCommand } from "./commands/SuggestCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
 import { WhyUsedCommand } from "./commands/WhyUsedCommand";
@@ -49,14 +51,21 @@ export class RocketChatterApp extends App {
 
     public async extendConfiguration(configuration: IConfigurationExtend) {
         configuration.slashCommands.provideSlashCommand(new HealthCommand());
+
         configuration.slashCommands.provideSlashCommand(new AskCommand());
         configuration.slashCommands.provideSlashCommand(new DiagramCommand());
-        configuration.slashCommands.provideSlashCommand(new WhyUsedCommand());
-        configuration.slashCommands.provideSlashCommand(new TranslateCommand());
         configuration.slashCommands.provideSlashCommand(new DocumentCommand());
+        configuration.slashCommands.provideSlashCommand(
+            new FindSimilarCommand()
+        );
         configuration.slashCommands.provideSlashCommand(
             new ImportanceCommand()
         );
+        configuration.slashCommands.provideSlashCommand(
+            new StyleguideCommand()
+        );
         configuration.slashCommands.provideSlashCommand(new SuggestCommand());
+        configuration.slashCommands.provideSlashCommand(new TranslateCommand());
+        configuration.slashCommands.provideSlashCommand(new WhyUsedCommand());
     }
 }
