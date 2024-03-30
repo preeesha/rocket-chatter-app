@@ -10,7 +10,7 @@
     },
     "name": "Rocket Chatter",
     "nameSlug": "rocket-chatter",
-    "classFile": "RocketChatterApp.ts",
+    "classFile": "src/RocketChatterApp.ts",
     "description": "Rocket Chatter app",
     "implements": []
 }
