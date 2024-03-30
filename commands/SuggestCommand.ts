@@ -9,13 +9,13 @@ import {
 } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { API_BASE_URI } from "../constants";
 
-export class SuggestFixCommand implements ISlashCommand {
-    public command = "rcc-suggestFix";
+export class SuggestCommand implements ISlashCommand {
+    public command = "rcc-suggest";
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/suggestFix";
+    private commandEndpoint = "/suggest";
 
     public async executor(
         context: SlashCommandContext,
