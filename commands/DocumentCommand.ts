@@ -24,8 +24,8 @@ export class DocumentCommand implements ISlashCommand {
         modify: IModify,
         http: IHttp
     ): Promise<void> {
-        const [targetEntity, query] = context.getArguments();
-        if (!targetEntity) {
+        const query = context.getArguments().join(" ");
+        if (!query) {
             throw new Error("Error!");
         }
 
@@ -36,8 +36,7 @@ export class DocumentCommand implements ISlashCommand {
         );
 
         const res = await requestServer(http, this.commandEndpoint, {
-            query: query || "make it easy for me",
-            targetEntity: targetEntity,
+            query: query,
         });
         if (!res) {
             await sendEditedMessage("Error!");
@@ -46,8 +45,6 @@ export class DocumentCommand implements ISlashCommand {
 
         const data = res as Record<string, string>;
 
-        await sendEditedMessage(
-            `\`\`\`\n${data["jsDoc"]}\n\`\`\`\n\n${data["explanation"]}`
-        );
+        await sendEditedMessage(`${data["jsDoc"]}\n\n${data["explanation"]}`);
     }
 }

@@ -12,7 +12,7 @@ import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { ImportanceCommand } from "./commands/ImportanceCommand";
 import { SearchUsageCommand } from "./commands/SearchUsageCommand";
-import { SuggestFixCommand } from "./commands/SuggestFixCommand";
+import { SuggestCommand } from "./commands/SuggestCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
 
 export class RocketChatterApp extends App {
@@ -32,8 +32,6 @@ export class RocketChatterApp extends App {
         configuration.slashCommands.provideSlashCommand(
             new ImportanceCommand()
         );
-        configuration.slashCommands.provideSlashCommand(
-            new SuggestFixCommand()
-        );
+        configuration.slashCommands.provideSlashCommand(new SuggestCommand());
     }
 }
