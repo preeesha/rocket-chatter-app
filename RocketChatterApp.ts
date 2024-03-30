@@ -11,9 +11,9 @@ import { DiagramCommand } from "./commands/DiagramCommand";
 import { DocumentCommand } from "./commands/DocumentCommand";
 import { HealthCommand } from "./commands/HealthCommand";
 import { ImportanceCommand } from "./commands/ImportanceCommand";
-import { SearchUsageCommand } from "./commands/SearchUsageCommand";
 import { SuggestCommand } from "./commands/SuggestCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
+import { WhyUsedCommand } from "./commands/WhyUsedCommand";
 
 export class RocketChatterApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
@@ -24,9 +24,7 @@ export class RocketChatterApp extends App {
         configuration.slashCommands.provideSlashCommand(new HealthCommand());
         configuration.slashCommands.provideSlashCommand(new AskCommand());
         configuration.slashCommands.provideSlashCommand(new DiagramCommand());
-        configuration.slashCommands.provideSlashCommand(
-            new SearchUsageCommand()
-        );
+        configuration.slashCommands.provideSlashCommand(new WhyUsedCommand());
         configuration.slashCommands.provideSlashCommand(new TranslateCommand());
         configuration.slashCommands.provideSlashCommand(new DocumentCommand());
         configuration.slashCommands.provideSlashCommand(

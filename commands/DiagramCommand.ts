@@ -39,7 +39,7 @@ export class DiagramCommand implements ISlashCommand {
         console.log(res);
 
         if (!res) {
-            await sendEditedMessage("Error!");
+            await sendEditedMessage("❌ Diagram cannot be generated.");
             return;
         }
 

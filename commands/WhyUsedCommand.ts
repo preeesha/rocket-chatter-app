@@ -10,13 +10,13 @@ import {
 import { handleCommand } from "../utils/handleCommand";
 import { requestServer } from "../utils/requestServer";
 
-export class SearchUsageCommand implements ISlashCommand {
-    public command = "rcc-searchUsage";
+export class WhyUsedCommand implements ISlashCommand {
+    public command = "rcc-whyused";
     public i18nParamsExample = "";
     public i18nDescription = "";
     public providesPreview = false;
 
-    private commandEndpoint = "/searchUsage";
+    private commandEndpoint = "/whyUsed";
 
     public async executor(
         context: SlashCommandContext,
@@ -43,12 +43,9 @@ export class SearchUsageCommand implements ISlashCommand {
 
         const data = res as Record<string, string>;
 
-        const answer = data.answer;
-        const impact = data.impact;
-        const diagram = data.diagram;
-
-        await sendEditedMessage(`*Answer:*\n${answer}\n\n*Impact:* ${impact}`, [
-            diagram,
-        ]);
+        await sendEditedMessage(
+            `\n${data.explanation}\n\n**Impact:** ${data.impact}`,
+            [data.diagram]
+        );
     }
 }
