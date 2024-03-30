@@ -9,7 +9,7 @@
         "support": "https://google.com"
     },
     "name": "Rocket Chatter",
-    "nameSlug": "rocket-chatter",
+    "nameSlug": "rocketchatter",
     "classFile": "src/RocketChatterApp.ts",
     "description": "Rocket Chatter app",
     "implements": []

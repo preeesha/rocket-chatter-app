@@ -10,7 +10,11 @@ export async function handleCommand(
     const args = context.getArguments();
     const user = modify
         .getCreator()
-        .startBotUser()
+        .startBotUser({
+            id: "rocket.chatter",
+            username: "rocket.chatter",
+            name: "Rocket Chatter",
+        })
         .setDisplayName("Rocket Chatter")
         .setUsername("rocket.chatter")
         .getUser() as IUser;
