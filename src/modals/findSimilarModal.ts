@@ -14,16 +14,16 @@ import { getButton, getInputBox } from "../utils/blockBuilders";
 import { handleCommandResponse } from "../utils/handleCommandResponse";
 import { requestServer } from "../utils/requestServer";
 
-export const COMMAND = "rcc-suggest";
-export const SUGGEST_COMMAND_MODAL = "suggest-command";
+export const COMMAND = "rcc-findsimilar";
+export const FIND_SIMILAR_COMMAND_MODAL = "findsimilar-command";
 
-export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
+export async function findSimilarModal(): Promise<IUIKitSurfaceViewParam> {
     return {
-        id: SUGGEST_COMMAND_MODAL,
+        id: FIND_SIMILAR_COMMAND_MODAL,
         type: UIKitSurfaceType.MODAL,
         title: {
             type: "plain_text",
-            text: "Get Suggestions",
+            text: "Find similar chunks",
         },
         close: await getButton("Close", "", ""),
         clearOnClose: true,
@@ -31,9 +31,9 @@ export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
         blocks: [
             await getInputBox(
                 "",
-                "What code you want to get suggestions for?",
-                "suggest",
-                SUGGEST_COMMAND_MODAL,
+                "Insert the code for which you want to find similar chunks here",
+                "findsimilar",
+                FIND_SIMILAR_COMMAND_MODAL,
                 "",
                 true
             ),
@@ -41,7 +41,7 @@ export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
     };
 }
 
-export async function suggestModalSubmitHandler(
+export async function findSimilarModalSubmitHandler(
     view: IUIKitSurface,
     sender: IUser,
     room: IRoom,
@@ -52,7 +52,7 @@ export async function suggestModalSubmitHandler(
     const state = view.state as Record<string, any> | undefined;
     if (!state) return;
 
-    const query = state.suggest[SUGGEST_COMMAND_MODAL];
+    const query = state.findsimilar[FIND_SIMILAR_COMMAND_MODAL];
     const sendMessage = await handleCommandResponse(
         "\n```\n" + query + "\n```",
         sender,
@@ -61,10 +61,10 @@ export async function suggestModalSubmitHandler(
         COMMAND
     );
 
-    const res = await requestServer(http, "/suggest", { query });
+    const res = await requestServer(http, "/findSimilar", { query });
     if (!res) {
         await sendMessage(
-            "❌ Failed to get suggestions. Please try again later."
+            "❌ Failed to find similar chunks. Please try again later."
         );
         return;
     }

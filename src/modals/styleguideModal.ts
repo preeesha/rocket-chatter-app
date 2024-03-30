@@ -14,16 +14,16 @@ import { getButton, getInputBox } from "../utils/blockBuilders";
 import { handleCommandResponse } from "../utils/handleCommandResponse";
 import { requestServer } from "../utils/requestServer";
 
-export const COMMAND = "rcc-suggest";
-export const SUGGEST_COMMAND_MODAL = "suggest-command";
+export const COMMAND = "rcc-styleguide";
+export const STYLEGUIDE_COMMAND_MODAL = "styleguide-command";
 
-export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
+export async function styleguideModal(): Promise<IUIKitSurfaceViewParam> {
     return {
-        id: SUGGEST_COMMAND_MODAL,
+        id: STYLEGUIDE_COMMAND_MODAL,
         type: UIKitSurfaceType.MODAL,
         title: {
             type: "plain_text",
-            text: "Get Suggestions",
+            text: "Use the styleguide",
         },
         close: await getButton("Close", "", ""),
         clearOnClose: true,
@@ -31,9 +31,9 @@ export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
         blocks: [
             await getInputBox(
                 "",
-                "What code you want to get suggestions for?",
-                "suggest",
-                SUGGEST_COMMAND_MODAL,
+                "What code you want to follow the styleguide?",
+                "styleguide",
+                STYLEGUIDE_COMMAND_MODAL,
                 "",
                 true
             ),
@@ -41,7 +41,7 @@ export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
     };
 }
 
-export async function suggestModalSubmitHandler(
+export async function styleguideModalSubmitHandler(
     view: IUIKitSurface,
     sender: IUser,
     room: IRoom,
@@ -50,9 +50,10 @@ export async function suggestModalSubmitHandler(
     http: IHttp
 ) {
     const state = view.state as Record<string, any> | undefined;
+    console.log(state);
     if (!state) return;
 
-    const query = state.suggest[SUGGEST_COMMAND_MODAL];
+    const query = state.styleguide[STYLEGUIDE_COMMAND_MODAL];
     const sendMessage = await handleCommandResponse(
         "\n```\n" + query + "\n```",
         sender,
@@ -61,10 +62,10 @@ export async function suggestModalSubmitHandler(
         COMMAND
     );
 
-    const res = await requestServer(http, "/suggest", { query });
+    const res = await requestServer(http, "/styleguide", { query });
     if (!res) {
         await sendMessage(
-            "❌ Failed to get suggestions. Please try again later."
+            "❌ Failed to match the styleguide. Please try again later."
         );
         return;
     }
