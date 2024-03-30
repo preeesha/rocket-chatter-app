@@ -39,7 +39,7 @@ export class DocumentCommand implements ISlashCommand {
             query: query,
         });
         if (!res) {
-            await sendEditedMessage("Error!");
+            await sendEditedMessage("❌ No references found!");
             return;
         }
 

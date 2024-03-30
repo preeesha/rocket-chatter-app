@@ -39,7 +39,7 @@ export class AskCommand implements ISlashCommand {
         console.log(res);
 
         if (!res) {
-            await sendEditedMessage("Error!");
+            await sendEditedMessage("❌ No references found!");
             return;
         }
 
