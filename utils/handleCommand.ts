@@ -10,20 +10,17 @@ export async function handleCommand(
     const args = context.getArguments();
     const user = modify
         .getCreator()
-        .startBotUser({
-            name: "Rocket Chatter",
-            username: "rocket.chatter",
-            bio: "Rcoket Chatter",
-        })
+        .startBotUser()
+        .setDisplayName("Rocket Chatter")
+        .setUsername("rocket.chatter")
         .getUser() as IUser;
 
-    console.log("```\n" + `/${command} ${args.join(" ")}` + "\n```");
     const greetMessage = modify.getCreator().startMessage();
     greetMessage
-        .setSender(user)
+        .setSender(context.getSender())
         .setRoom(context.getRoom())
         .setGroupable(false)
-        .setText("```\n" + `/${command} ${args.join(" ")}` + "\n```");
+        .setText(`\`/${command}\` ${args.join(" ")}`);
     await modify.getCreator().finish(greetMessage);
 
     const progressIndicators = [
