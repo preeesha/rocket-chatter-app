@@ -36,8 +36,6 @@ export class AskCommand implements ISlashCommand {
         );
 
         const res = await requestServer(http, "/ask", { query });
-        console.log(res);
-
         if (!res) {
             await sendEditedMessage("❌ No references found!");
             return;

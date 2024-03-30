@@ -37,7 +37,5 @@ export class HealthCommand implements ISlashCommand {
         }
 
         await sendEditedMessage("✅ Health check successful");
-
-        console.log(res);
     }
 }

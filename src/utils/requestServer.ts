@@ -13,5 +13,9 @@ export async function requestServer(
         return null;
     }
 
+    console.log(uri);
+    console.log(data);
+    console.log(res.data);
+
     return res.data;
 }

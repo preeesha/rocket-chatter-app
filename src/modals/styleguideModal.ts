@@ -50,7 +50,6 @@ export async function styleguideModalSubmitHandler(
     http: IHttp
 ) {
     const state = view.state as Record<string, any> | undefined;
-    console.log(state);
     if (!state) return;
 
     const query = state.styleguide[STYLEGUIDE_COMMAND_MODAL];

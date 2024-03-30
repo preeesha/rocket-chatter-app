@@ -43,6 +43,6 @@ export class ImportanceCommand implements ISlashCommand {
 
         const data = res as Record<string, string>;
 
-        await sendEditedMessage(`*Importance:* ${data["result"]}`);
+        await sendEditedMessage(`*Importance:* ${JSON.stringify(data)}`);
     }
 }

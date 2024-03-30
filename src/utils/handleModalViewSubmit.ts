@@ -25,7 +25,6 @@ export async function handleModalViewSubmit(
     );
 
     if (!slashCommandContext) {
-        console.log("NO DATA FOUND");
         context.getInteractionResponder().viewErrorResponse({
             viewId: view.id,
             errors: {

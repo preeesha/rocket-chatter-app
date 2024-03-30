@@ -36,8 +36,6 @@ export class DiagramCommand implements ISlashCommand {
         );
 
         const res = await requestServer(http, "/diagram", { query });
-        console.log(res);
-
         if (!res) {
             await sendEditedMessage("❌ Diagram cannot be generated.");
             return;
