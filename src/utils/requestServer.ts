@@ -3,7 +3,7 @@ import { API_BASE_URI } from "../constants";
 
 export async function requestServer(
     http: IHttp,
-    endpoint: string,
+    endpoint: `/${string}`,
     data: Record<string, string>
 ): Promise<null | string | string[] | Record<string, string>> {
     const uri = `${API_BASE_URI}${endpoint}`;
