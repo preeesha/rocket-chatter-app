@@ -10,11 +10,7 @@ import {
 import { App } from "@rocket.chat/apps-engine/definition/App";
 import { IAppInfo } from "@rocket.chat/apps-engine/definition/metadata";
 
-import {
-    IUIKitResponse,
-    UIKitBlockInteractionContext,
-    UIKitViewSubmitInteractionContext,
-} from "@rocket.chat/apps-engine/definition/uikit";
+import { UIKitViewSubmitInteractionContext } from "@rocket.chat/apps-engine/definition/uikit";
 import { AskCommand } from "./commands/AskCommand";
 import { DiagramCommand } from "./commands/DiagramCommand";
 import { DocumentCommand } from "./commands/DocumentCommand";
@@ -25,18 +21,11 @@ import { StyleguideCommand } from "./commands/Styleguide";
 import { SuggestCommand } from "./commands/SuggestCommand";
 import { TranslateCommand } from "./commands/TranslateCommand";
 import { WhyUsedCommand } from "./commands/WhyUsedCommand";
-import { handleModalViewOpen } from "./utils/handleModalViewOpen";
 import { handleModalViewSubmit } from "./utils/handleModalViewSubmit";
 
 export class RocketChatterApp extends App {
     constructor(info: IAppInfo, logger: ILogger, accessors: IAppAccessors) {
         super(info, logger, accessors);
-    }
-
-    public async executeBlockActionHandler(
-        context: UIKitBlockInteractionContext
-    ): Promise<IUIKitResponse> {
-        return await handleModalViewOpen(context);
     }
 
     public async executeViewSubmitHandler(

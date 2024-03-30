@@ -33,7 +33,7 @@ export async function suggestModal(): Promise<IUIKitSurfaceViewParam> {
                 "",
                 "What code you want to get suggestions for?",
                 "suggest",
-                SUGGEST_COMMAND_MODAL,
+                "suggest",
                 "",
                 true
             ),
@@ -52,7 +52,7 @@ export async function suggestModalSubmitHandler(
     const state = view.state as Record<string, any> | undefined;
     if (!state) return;
 
-    const query = state.suggest[SUGGEST_COMMAND_MODAL];
+    const query = state.suggest.suggest;
     const sendMessage = await handleCommandResponse(
         "\n```\n" + query + "\n```",
         sender,

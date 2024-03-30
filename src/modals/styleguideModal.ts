@@ -33,7 +33,7 @@ export async function styleguideModal(): Promise<IUIKitSurfaceViewParam> {
                 "",
                 "What code you want to follow the styleguide?",
                 "styleguide",
-                STYLEGUIDE_COMMAND_MODAL,
+                "styleguide",
                 "",
                 true
             ),
@@ -52,7 +52,7 @@ export async function styleguideModalSubmitHandler(
     const state = view.state as Record<string, any> | undefined;
     if (!state) return;
 
-    const query = state.styleguide[STYLEGUIDE_COMMAND_MODAL];
+    const query = state.styleguide.styleguide;
     const sendMessage = await handleCommandResponse(
         "\n```\n" + query + "\n```",
         sender,

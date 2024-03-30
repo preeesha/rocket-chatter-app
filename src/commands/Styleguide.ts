@@ -8,7 +8,7 @@ import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { suggestModal } from "../modals/suggestModal";
+import { styleguideModal } from "../modals/styleguideModal";
 import { persistUIData } from "../utils/persistenceHandlers";
 
 export class StyleguideCommand implements ISlashCommand {
@@ -35,7 +35,7 @@ export class StyleguideCommand implements ISlashCommand {
         await modify
             .getUiController()
             .openSurfaceView(
-                await suggestModal(),
+                await styleguideModal(),
                 { triggerId },
                 context.getSender()
             );

@@ -8,7 +8,7 @@ import {
     ISlashCommand,
     SlashCommandContext,
 } from "@rocket.chat/apps-engine/definition/slashcommands";
-import { suggestModal } from "../modals/suggestModal";
+import { findSimilarModal } from "../modals/findSimilarModal";
 import { persistUIData } from "../utils/persistenceHandlers";
 
 export class FindSimilarCommand implements ISlashCommand {
@@ -35,7 +35,7 @@ export class FindSimilarCommand implements ISlashCommand {
         await modify
             .getUiController()
             .openSurfaceView(
-                await suggestModal(),
+                await findSimilarModal(),
                 { triggerId },
                 context.getSender()
             );

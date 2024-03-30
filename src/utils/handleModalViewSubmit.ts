@@ -7,10 +7,24 @@ import { IRoom } from "@rocket.chat/apps-engine/definition/rooms";
 import { SlashCommandContext } from "@rocket.chat/apps-engine/definition/slashcommands";
 import { UIKitViewSubmitInteractionContext } from "@rocket.chat/apps-engine/definition/uikit";
 import {
+    FIND_SIMILAR_COMMAND_MODAL,
+    findSimilarModalSubmitHandler,
+} from "../modals/findSimilarModal";
+import {
+    STYLEGUIDE_COMMAND_MODAL,
+    styleguideModalSubmitHandler,
+} from "../modals/styleguideModal";
+import {
     SUGGEST_COMMAND_MODAL,
     suggestModalSubmitHandler,
 } from "../modals/suggestModal";
 import { getUIData } from "./persistenceHandlers";
+
+const MODALS: Record<string, any> = {
+    [SUGGEST_COMMAND_MODAL]: suggestModalSubmitHandler,
+    [FIND_SIMILAR_COMMAND_MODAL]: findSimilarModalSubmitHandler,
+    [STYLEGUIDE_COMMAND_MODAL]: styleguideModalSubmitHandler,
+};
 
 export async function handleModalViewSubmit(
     context: UIKitViewSubmitInteractionContext,
@@ -36,20 +50,8 @@ export async function handleModalViewSubmit(
 
     const room = JSON.parse(JSON.stringify(slashCommandContext)).room as IRoom;
 
-    switch (view.id) {
-        case SUGGEST_COMMAND_MODAL:
-            await suggestModalSubmitHandler(
-                view,
-                user,
-                room,
-                read,
-                modify,
-                http
-            );
-            break;
-        default:
-            break;
-    }
+    let handler = MODALS[view.id];
+    await handler(view, user, room, read, modify, http);
 
     return context.getInteractionResponder().successResponse();
 }

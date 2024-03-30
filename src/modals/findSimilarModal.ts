@@ -33,7 +33,7 @@ export async function findSimilarModal(): Promise<IUIKitSurfaceViewParam> {
                 "",
                 "Insert the code for which you want to find similar chunks here",
                 "findsimilar",
-                FIND_SIMILAR_COMMAND_MODAL,
+                "findsimilar",
                 "",
                 true
             ),
@@ -52,7 +52,7 @@ export async function findSimilarModalSubmitHandler(
     const state = view.state as Record<string, any> | undefined;
     if (!state) return;
 
-    const query = state.findsimilar[FIND_SIMILAR_COMMAND_MODAL];
+    const query = state.findsimilar.findsimilar;
     const sendMessage = await handleCommandResponse(
         "\n```\n" + query + "\n```",
         sender,
