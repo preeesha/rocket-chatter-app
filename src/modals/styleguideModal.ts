@@ -54,7 +54,7 @@ export async function styleguideModalSubmitHandler(
 
     const query = state.styleguide.styleguide;
     const sendMessage = await handleCommandResponse(
-        "\n```\n" + query + "\n```",
+        "\n```typescript\n" + query + "\n```",
         sender,
         room,
         modify,
@@ -68,6 +68,8 @@ export async function styleguideModalSubmitHandler(
         );
         return;
     }
+
+    console.log(res);
 
     await sendMessage(res as string);
 }

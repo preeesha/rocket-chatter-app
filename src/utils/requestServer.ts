@@ -5,7 +5,7 @@ export async function requestServer(
     http: IHttp,
     endpoint: `/${string}`,
     data: Record<string, string>
-): Promise<null | string | string[] | Record<string, string>> {
+): Promise<null | string | string[] | Record<string, string | number>> {
     const uri = `${API_BASE_URI}${endpoint}`;
     const res = await http.post(uri, { data: data });
 

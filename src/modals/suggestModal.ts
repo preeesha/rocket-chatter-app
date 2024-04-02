@@ -54,7 +54,7 @@ export async function suggestModalSubmitHandler(
 
     const query = state.suggest.suggest;
     const sendMessage = await handleCommandResponse(
-        "\n```\n" + query + "\n```",
+        "\n```typescript\n" + query + "\n```",
         sender,
         room,
         modify,
